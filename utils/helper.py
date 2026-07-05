@@ -1,15 +1,15 @@
 import os
 import shutil
-import tempfile
-
-CHROMA_DB_PATH = os.path.join(tempfile.gettempdir(), "enterprise_ai_chroma")
 
 
 def delete_knowledge_base():
+    """
+    Delete uploads folder and FAISS index.
+    """
 
     folders = [
         "uploads",
-        CHROMA_DB_PATH
+        "faiss_index"
     ]
 
     for folder in folders:

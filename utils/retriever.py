@@ -1,15 +1,19 @@
-import os
-import tempfile
-from langchain_chroma import Chroma
-
-CHROMA_DB_PATH = os.path.join(tempfile.gettempdir(), "enterprise_ai_chroma")
+from langchain_community.vectorstores import FAISS
+from utils.embeddings import get_embedding_model
 
 
-def get_retriever(embedding_model):
+def get_retriever(embedding_model=None):
+    """
+    Load the FAISS vector database and return a retriever.
+    """
 
-    vector_store = Chroma(
-        persist_directory=CHROMA_DB_PATH,
-        embedding_function=embedding_model
+    if embedding_model is None:
+        embedding_model = get_embedding_model()
+
+    vector_store = FAISS.load_local(
+        "faiss_index",
+        embedding_model,
+        allow_dangerous_deserialization=True
     )
 
     return vector_store.as_retriever(
