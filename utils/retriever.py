@@ -1,6 +1,8 @@
+import os
+import tempfile
 from langchain_chroma import Chroma
 
-CHROMA_DB_PATH = "chroma_db"
+CHROMA_DB_PATH = os.path.join(tempfile.gettempdir(), "enterprise_ai_chroma")
 
 
 def get_retriever(embedding_model):
@@ -12,5 +14,5 @@ def get_retriever(embedding_model):
 
     return vector_store.as_retriever(
         search_type="similarity",
-        search_kwargs={"k":4}
+        search_kwargs={"k": 4}
     )
