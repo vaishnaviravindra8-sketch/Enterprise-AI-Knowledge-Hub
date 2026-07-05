@@ -12,7 +12,7 @@ UPLOAD_FOLDER = "uploads"
 
 def save_uploaded_files(uploaded_files):
     """
-    Save uploaded files to uploads folder.
+    Save uploaded files to the uploads folder.
     """
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)

@@ -7,9 +7,10 @@ from utils.vector_store import create_vector_store
 from utils.rag import ask_question
 from utils.helper import delete_knowledge_base
 
-# =====================================================
+
+# --------------------------------------------------
 # PAGE CONFIG
-# =====================================================
+# --------------------------------------------------
 
 st.set_page_config(
     page_title="Enterprise AI Knowledge Hub",
@@ -17,9 +18,10 @@ st.set_page_config(
     layout="wide"
 )
 
-# =====================================================
+
+# --------------------------------------------------
 # SESSION STATE
-# =====================================================
+# --------------------------------------------------
 
 if "knowledge_base_ready" not in st.session_state:
     st.session_state.knowledge_base_ready = False
@@ -39,17 +41,19 @@ if "documents" not in st.session_state:
 if "chunks" not in st.session_state:
     st.session_state.chunks = []
 
-# =====================================================
+
+# --------------------------------------------------
 # HEADER
-# =====================================================
+# --------------------------------------------------
 
 st.title("📚 Enterprise AI Knowledge Hub")
 st.markdown("### AI-Powered Enterprise Document Assistant")
 st.markdown("---")
 
-# =====================================================
+
+# --------------------------------------------------
 # SIDEBAR
-# =====================================================
+# --------------------------------------------------
 
 st.sidebar.title("📚 Enterprise AI Knowledge Hub")
 
@@ -70,9 +74,10 @@ if st.session_state.knowledge_base_ready:
 else:
     st.sidebar.warning("🟡 Waiting for documents...")
 
-# =====================================================
+
+# --------------------------------------------------
 # BUILD KNOWLEDGE BASE
-# =====================================================
+# --------------------------------------------------
 
 if uploaded_files and not st.session_state.uploaded_once:
 
@@ -83,13 +88,13 @@ if uploaded_files and not st.session_state.uploaded_once:
         documents = load_documents(saved_files)
 
         chunks = split_documents(documents)
-        if len(chunks) == 0:
 
-           st.error(
-            "No readable text was found in the uploaded PDF. "
-            "It may be a scanned document or image-based PDF."
-           )
-           st.stop()
+        if len(chunks) == 0:
+            st.error(
+                "No readable text was found in the uploaded PDF. "
+                "It may be a scanned document or image-based PDF."
+            )
+            st.stop()
 
         embedding_model = get_embedding_model()
 
@@ -107,9 +112,10 @@ if uploaded_files and not st.session_state.uploaded_once:
 
     st.rerun()
 
-# =====================================================
+
+# --------------------------------------------------
 # DASHBOARD
-# =====================================================
+# --------------------------------------------------
 
 if st.session_state.knowledge_base_ready:
 
@@ -141,9 +147,9 @@ if st.session_state.knowledge_base_ready:
 
     for file in st.session_state.saved_files:
         st.write(f"📄 {file}")
-        # =====================================================
+        # --------------------------------------------------
 # ASK QUESTIONS
-# =====================================================
+# --------------------------------------------------
 
 st.markdown("---")
 st.header("💬 Ask Questions")
@@ -168,7 +174,9 @@ if submitted:
 
     else:
 
-        with st.spinner("Searching documents and generating answer..."):
+        with st.spinner(
+            "Searching documents and generating answer..."
+        ):
 
             answer, docs = ask_question(question)
 
@@ -182,9 +190,10 @@ if submitted:
 
         st.rerun()
 
-# =====================================================
+
+# --------------------------------------------------
 # CHAT HISTORY
-# =====================================================
+# --------------------------------------------------
 
 if st.session_state.chat_history:
 
@@ -206,8 +215,15 @@ if st.session_state.chat_history:
 
             for doc in chat["sources"]:
 
-                source = doc.metadata.get("source", "Unknown")
-                page = doc.metadata.get("page", None)
+                source = doc.metadata.get(
+                    "source",
+                    "Unknown"
+                )
+
+                page = doc.metadata.get(
+                    "page",
+                    None
+                )
 
                 key = (source, page)
 
@@ -217,19 +233,24 @@ if st.session_state.chat_history:
                 shown.add(key)
 
                 if page is not None:
-                    st.caption(f"📄 {source} | Page {page + 1}")
+                    st.caption(
+                        f"📄 {source} | Page {page + 1}"
+                    )
                 else:
                     st.caption(f"📄 {source}")
 
-                with st.expander("View Retrieved Text"):
+                with st.expander(
+                    "View Retrieved Text"
+                ):
 
                     st.write(doc.page_content)
 
         st.markdown("---")
 
-# =====================================================
+
+# --------------------------------------------------
 # SIDEBAR ACTIONS
-# =====================================================
+# --------------------------------------------------
 
 st.sidebar.markdown("---")
 
@@ -253,9 +274,10 @@ if st.sidebar.button("🗑 Delete Knowledge Base"):
 
     st.rerun()
 
-# =====================================================
+
+# --------------------------------------------------
 # FOOTER
-# =====================================================
+# --------------------------------------------------
 
 st.sidebar.markdown("---")
 
