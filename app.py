@@ -83,6 +83,13 @@ if uploaded_files and not st.session_state.uploaded_once:
         documents = load_documents(saved_files)
 
         chunks = split_documents(documents)
+        if len(chunks) == 0:
+
+           st.error(
+            "No readable text was found in the uploaded PDF. "
+            "It may be a scanned document or image-based PDF."
+           )
+           st.stop()
 
         embedding_model = get_embedding_model()
 
