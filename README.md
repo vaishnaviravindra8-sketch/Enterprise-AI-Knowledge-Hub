@@ -9,7 +9,7 @@ Enterprise AI Knowledge Hub is an AI-powered document question-answering system 
 - Automatic document processing
 - Intelligent text chunking
 - Semantic search using vector embeddings
-- Faiss vector database
+- Chromadb vector database
 - AI-powered answers using Gemini
 - Displays source documents and page numbers
 - Chat history
@@ -20,7 +20,7 @@ Enterprise AI Knowledge Hub is an AI-powered document question-answering system 
 - Python
 - Streamlit
 - LangChain
-- Faiss
+- Chroma db
 - HuggingFace Embeddings
 - Google Gemini API
 - Sentence Transformers
